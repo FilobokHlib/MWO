@@ -11,4 +11,16 @@ flowchart TD
     A -.->|Extend| C
 ```
 
+### Zarządzanie dostępnością biletów
+```mermaid
+flowchart TD
+    A[Zarządzanie dostępnością biletów]
+    B[Synchronizacja danych]
+    C[Powiadomienie o problemach synchronizacji]
+
+    A -->|Include| B
+    A -.->|Extend| C
+```
+
+
 
