@@ -8,7 +8,7 @@
 
 ```mermaid
 flowchart TD
-    A[Wybór języka]
+    N[Uzytkownik] --> A[Wybór języka]
 
     A --> |Include| B[Ustawienie domyślnego języka]
     A --> |Include| C[Anulowanie transakcji]
@@ -22,7 +22,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Szybki wybór rodzaju biletu]
+    N[Uzytkownik] --> A[Szybki wybór rodzaju biletu]
 
     A --> |Include| B[Weryfikacja dostępnych biletów]
     A --> |Include| C[Anulowanie transakcji]
