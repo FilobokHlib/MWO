@@ -4,7 +4,7 @@
 
 ## Diagramy przypadków użycia
 
-### Szybki wybór rodzaju biletu
+### Wybór języka
 
 ```mermaid
 flowchart TD
@@ -15,4 +15,18 @@ flowchart TD
 
     %% Relacja Extend (opcjonalna)
     A -.->|Extend| F[Wyświetlenie listy popularnych języków]
+```
+
+
+### Szybki wybór rodzaju biletu
+
+```mermaid
+flowchart TD
+    A[Szybki wybór rodzaju biletu]
+
+    A --> |Include| B[Weryfikacja dostępnych biletów]
+    A --> |Include| C[Anulowanie transakcji]
+
+    %% Relacja Extend (opcjonalna)
+    A -.->|Extend| F[ Wyświetlenie podpowiedzi ]
 ```
