@@ -26,12 +26,12 @@ flowchart TD
     %% Relacja Extend (opcjonalna)
     A -.->|Extend| F[ Wyświetlenie podpowiedzi ]
 ```
-### SZYBKI WYBÓR RODZAJU BILETU
+### Zarządzanie taryfami biletowymi
 
 ```mermaid
 flowchart TD
     N[Administrator systemu] 
-    A[Zarządzanie taryfami]
+    A[Zarządzanie taryfami biletowymi]
     B[Zapis taryf]
     C[Powiadomienie o błędach taryf]
 
