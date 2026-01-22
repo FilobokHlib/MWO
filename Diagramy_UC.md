@@ -87,7 +87,26 @@ sequenceDiagram
         Biletomat ->> Biletomat: Reset interfejsu
     end
 ```
+### Wybór języka
+```mermaid
+sequenceDiagram
+    actor Użytkownik
+    participant Biletomat as System Biletomatu
 
+    %% Scenariusz główny – Wybór języka
+    Użytkownik ->> Biletomat: Uruchomienie biletomatu
+    Biletomat -->> Użytkownik: Ekran powitalny\n(opcje wyboru języka)
+    Użytkownik ->> Biletomat: Wybór preferowanego języka
+    Biletomat ->> Biletomat: Dostosowanie interfejsu\n do wybranego języka
+    Biletomat -->> Użytkownik: Interfejs w wybranym języku
+
+    %% Scenariusz alternatywny – Anulowanie transakcji
+    alt Anulowanie transakcji
+        Użytkownik ->> Biletomat: Wybranie opcji "Anuluj"
+        Biletomat -->> Użytkownik: Komunikat o anulowaniu
+        Biletomat ->> Biletomat: Reset interfejsu\n do ekranu głównego
+    end
+```
 
 
 
