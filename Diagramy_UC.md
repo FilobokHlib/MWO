@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-    N[Uzytkownik] --> A[Wybór języka]
+    N[Uzytkownik] --- A[Wybór języka]
 
     A --> |Include| B[Ustawienie domyślnego języka]
     A --> |Include| C[Anulowanie transakcji]
@@ -18,7 +18,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    N[Uzytkownik] --> A[Szybki wybór rodzaju biletu]
+    N[Uzytkownik] --- A[Szybki wybór rodzaju biletu]
 
     A --> |Include| B[Weryfikacja dostępnych biletów]
     A --> |Include| C[Anulowanie transakcji]
@@ -35,7 +35,7 @@ flowchart TD
     B[Zapis taryf]
     C[Powiadomienie o błędach taryf]
 
-    N --> A
+    N --- A
     A -->|Include| B
     A -.->|Extend| C
 ```
@@ -48,7 +48,7 @@ flowchart TD
     B[Synchronizacja danych]
     C[Powiadomienie o problemach synchronizacji]
 
-    N --> A
+    N --- A
     A -->|Include| B
     A -.->|Extend| C
 ```
