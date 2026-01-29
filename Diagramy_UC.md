@@ -385,8 +385,30 @@ sequenceDiagram
     end
 ```
 
-# DIAGRAMY KLAS
-## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie dostępnością biletów"
+## DIAGRAMY KLAS
+
+### KLASY
+
+#### UŻYTKOWNIK
+- ATRYBUTY: `String odbiórBiletu`, `Boolean czyAktywny`
+- METODY: `void rozpocznijInterakcję()`, `void wybierzKategorię(String kategoria)`, `void wybierzBilet(String bilet)`, `void potwierdźWybór()`, `void dokonajPłatności(String metoda)`, `void anulujTransakcję()`
+
+#### BILETOMAT
+- ATRYBUTY: `List<Bilet> dostępneBilety`, `String aktualnyEkran`, `String status`
+- METODY: `void wyświetlListęBiletów()`, `void wyświetlPodsumowanie(Bilet bilet)`, `void weryfikujPłatność(String metoda)`, `void potwierdzTransakcję()`, `void resetInterfejs()`, `void wyświetlKomunikat(String tekst)`
+
+#### BILET
+- ATRYBUTY: `String id`, `String nazwa`, `String kategoria`, `Double cena`
+- METODY: `String getInfo()`, `Double getCena()`
+
+### RELACJE
+
+- `UŻYTKOWNIK` JEST POWIĄZANY Z `BILETOMAT` (ASOCJACJA) – użytkownik korzysta z biletomatu do zakupu biletu.
+
+- `BILETOMAT` ZAWIERA `BILET` (AGREGACJA) – biletomat przechowuje listę dostępnych biletów.
+
+
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie dostępnością biletów"
 ```mermaid
 classDiagram
 
@@ -436,7 +458,7 @@ BILETOMAT --> SERWER_APLIKACJI : potwierdza aktualizację
 
 ```
 
-## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie taryfami biletowymi"
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie taryfami biletowymi"
 ```mermaid
 classDiagram
 
@@ -493,5 +515,66 @@ SERWER_APLIKACJI --> APLIKACJA_MOBILNA : synchronizuje
 BILETOMAT --> SERWER_APLIKACJI : potwierdza sync
 APLIKACJA_MOBILNA --> SERWER_APLIKACJI : potwierdza sync
 
+```
+
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Szybki wybór rodzaju biletu"
+
+```mermaid
+classDiagram
+    class Użytkownik {
+
+        -Id
+        +rozpocznijInterakcję()
+        +wybierzKategorię(String)
+        +wybierzBilet(String)
+        +potwierdźWybór()
+        +dokonajPłatności(String)
+        +anulujTransakcję()
+    }
+
+    class Biletomat {
+        -List~Bilet~ dostępneBilety
+        -String aktualnyEkran
+        -String status
+        +wyświetlListęBiletów()
+        +wyświetlPodsumowanie(Bilet)
+        +weryfikujPłatność(String)
+        +potwierdzTransakcję()
+        +resetInterfejs()
+        +wyświetlKomunikat(String)
+    }
+
+    class Bilet {
+        -String id
+        -String nazwa
+        -String kategoria
+        -Double cena
+        +getInfo() String
+        +getCena() Double
+    }
+
+    Użytkownik --> Biletomat : korzysta z
+    Biletomat o-- Bilet : zawiera
+```
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Wybór języka"
+```mermaid
+classDiagram
+    class Użytkownik {
+        -Id
+        +uruchomBiletomat()
+        +wybierzJęzyk(String)
+        +anulujTransakcję()
+    }
+    class Biletomat {
+        -String aktualnyJęzyk
+        -String aktualnyEkran
+        -List~String~ dostępneJęzyki
+        +wyświetlEkranPowitalny()
+        +wyświetlOpcjeJęzyka()
+        +dostosujInterfejs(String)
+        +wyświetlKomunikat(String)
+        +resetInterfejs()
+    }
+    Użytkownik --> Biletomat : korzysta z
 ```
 
