@@ -143,7 +143,7 @@ sequenceDiagram
         ST-->>B: OK
     end
   ```
-### DIAGRAM SEKWENCJI DLA PRZYPADKU UŻYCIA WYŚWIETLENIA DOSTĘPNYCH BILETÓW
+## DIAGRAM SEKWENCJI DLA PRZYPADKU UŻYCIA WYŚWIETLENIA DOSTĘPNYCH BILETÓW
 - AKTOR: BILETOMAT
 - OBIEKTY: SYSTEM CENTRALNY, INTERFEJS UŻYTKOWNIKA, UŻYTKOWNIK
 - KOLEJNOŚĆ KOMUNIKATÓW (SCENARIUSZ GŁÓWNY):
@@ -186,27 +186,8 @@ sequenceDiagram
         IU->>U: "Brak danych. Skontaktuj się z obsługą"
     end
 ```
-### Scenariusz
-Szybki wybór rodzaju biletu Opis krokowy: 
-1. Użytkownik podchodzi do biletomatu (Rozpoczęcie interakcji).
-2. Użytkownik wybiera kategorię biletu (np. jednorazowe, okresowe) (Wybór kategorii).
-3. Użytkownik wybiera konkretny bilet z dostępnej listy (Wybór biletu).
-4. System wyświetla podsumowanie wyboru (Wyświetlenie podsumowania).
-5. Użytkownik przechodzi do realizacji transakcji (Potwierdzenie wyboru).
-6. Użytkownik w dowolnym momencie może anulować proces (Anulowanie transakcji).
-Scenariusz alternatywny 1:
-Płatność za bilet Opis krokowy:
-1. Użytkownik wybiera metodę płatności (karta, gotówka, telefon) (Wybór metody płatności).
-2. System weryfikuje dostępność wybranej metody (Weryfikacja metody płatności).
-3. Użytkownik dokonuje płatności (np. wprowadza kartę, gotówkę, korzysta z NFC) (Realizacja płatności).
-4. System potwierdza zakończenie transakcji (Potwierdzenie transakcji).
-5. Użytkownik w dowolnym momencie może anulować proces (Anulowanie transakcji).
-Scenariusz alternatywny 2:
-Anulowanie transakcji Opis krokowy:
-1. Użytkownik rozpoczyna proces zakupu biletu (Rozpoczęcie interakcji).
-2. W dowolnym momencie użytkownik wybiera opcję "Anuluj" (Wybranie opcji anulowania).
-3. System wyświetla komunikat potwierdzający anulowanie transakcji (Komunikat o anulowaniu).
-4. System resetuje interfejs do ekranu głównego (Reset interfejsu).
+
+    
 
 ### Szybki wybór rodzaju biletu
 
@@ -516,6 +497,58 @@ BILETOMAT --> SERWER_APLIKACJI : potwierdza sync
 APLIKACJA_MOBILNA --> SERWER_APLIKACJI : potwierdza sync
 
 ```
+## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Generowanie potwierdzenia zakupu"
+```mermaid
+classDiagram
+    class Biletomat {
+        - String idBiletomatu
+        - String lokalizacja
+        + void przyjmijPotwierdzenieTransakcji()
+        + void zlecDrukBiletu()
+        + void obsłużBłąd()
+        + void zakończTransakcję()
+    }
+
+    class SystemTransakcyjny {
+        - String idSystemu
+        + void wyślijPotwierdzenie()
+        + void odbierzStatusZakończenia()
+        + void zarejestrujBłąd()
+    }
+
+    class ModułDrukowania {
+        - boolean dostępnyPapier
+        - boolean sprawny
+        + Bilet generujBilet()
+        + boolean sprawdźStatus()
+    }
+
+    class InterfejsUżytkownika {
+        - String komunikat
+        + void wyświetlKomunikat(String tekst)
+        + void potwierdźOdbiór()
+    }
+
+    class Bilet {
+        - String numerBiletu
+        - Date dataZakupu
+        - Decimal kwota
+        + void drukuj()
+    }
+
+    class Użytkownik {
+        - String idUżytkownika
+        + void odbierzBilet()
+    }
+
+    Biletomat --> SystemTransakcyjny : komunikuje się
+    Biletomat --> ModułDrukowania : zleca druk
+    Biletomat --> InterfejsUżytkownika : steruje
+    ModułDrukowania --> Bilet : tworzy
+    InterfejsUżytkownika --> Użytkownik : informuje
+
+```
+
 
 ### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Szybki wybór rodzaju biletu"
 
