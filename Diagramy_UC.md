@@ -454,4 +454,100 @@ BILETOMAT --> SERWER_APLIKACJI : potwierdza sync
 APLIKACJA_MOBILNA --> SERWER_APLIKACJI : potwierdza sync
 
 ```
+## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Generowanie potwierdzenia zakupu"
+```mermaid
+classDiagram
+    class Biletomat {
+        - String idBiletomatu
+        - String lokalizacja
+        + void przyjmijPotwierdzenieTransakcji()
+        + void zlecDrukBiletu()
+        + void obsłużBłąd()
+        + void zakończTransakcję()
+    }
 
+    class SystemTransakcyjny {
+        - String idSystemu
+        + void wyślijPotwierdzenie()
+        + void odbierzStatusZakończenia()
+        + void zarejestrujBłąd()
+    }
+
+    class ModułDrukowania {
+        - boolean dostępnyPapier
+        - boolean sprawny
+        + Bilet generujBilet()
+        + boolean sprawdźStatus()
+    }
+
+    class InterfejsUżytkownika {
+        - String komunikat
+        + void wyświetlKomunikat(String tekst)
+        + void potwierdźOdbiór()
+    }
+
+    class Bilet {
+        - String numerBiletu
+        - Date dataZakupu
+        - Decimal kwota
+        + void drukuj()
+    }
+
+    class Użytkownik {
+        - String idUżytkownika
+        + void odbierzBilet()
+    }
+
+    Biletomat --> SystemTransakcyjny : komunikuje się
+    Biletomat --> ModułDrukowania : zleca druk
+    Biletomat --> InterfejsUżytkownika : steruje
+    ModułDrukowania --> Bilet : tworzy
+    InterfejsUżytkownika --> Użytkownik : informuje
+
+```
+
+
+## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Wyświetlenie dostępnych biletów"
+```mermaid
+classDiagram
+    class Biletomat {
+        - String idBiletomatu
+        - String wersjaOprogramowania
+        + void uruchomEkranPowitalny()
+        + void pobierzListeBiletów()
+        + void wyświetlBilety()
+        + void obsłużBrakDanych()
+    }
+
+    class SystemCentralny {
+        - List~Bilet~ dostępneBilety
+        - boolean dostępnośćSieci
+        + List~Bilet~ zwróćListeBiletów()
+        + boolean sprawdźPołączenie()
+    }
+
+    class InterfejsUżytkownika {
+        - String aktualnyWidok
+        + void pokażEkranPowitalny()
+        + void wyświetlListeBiletów(List~Bilet~ bilety)
+        + void wyświetlKomunikatOstrzegawczy(String tekst)
+    }
+
+    class Bilet {
+        - String nazwa
+        - Decimal cena
+        - String typ
+        + String pobierzOpis()
+    }
+
+    class Użytkownik {
+        - String idUżytkownika
+        + void przeglądajBilety()
+        + void wybierzBilet()
+    }
+
+    Biletomat --> SystemCentralny : pobiera dane
+    Biletomat --> InterfejsUżytkownika : steruje
+    SystemCentralny o-- Bilet : przechowuje
+    InterfejsUżytkownika --> Użytkownik : wyświetla
+```
