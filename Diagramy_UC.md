@@ -187,7 +187,23 @@ sequenceDiagram
     end
 ```
 
-## Diagramy sekwencji
+    B->>IU: Uruchomienie ekranu powitalnego
+    IU-->>B: OK
+    
+    B->>SC: Żądanie listy biletów (include: aktualizacja)
+    
+    alt Scenariusz główny
+        SC-->>B: Lista biletów
+        B->>IU: Wyświetl bilety
+        IU->>U: Kategorie i szczegóły biletów
+        U-->>IU: Przeglądanie
+        IU-->>B: Oczekiwanie na wybór
+    else Awaria sieci (extend)
+        SC-->>B: Błąd połączenia
+        B->>IU: Komunikat o błędzie
+        IU->>U: "Brak danych. Skontaktuj się z obsługą"
+    end
+```
 ### Scenariusz
 Szybki wybór rodzaju biletu Opis krokowy: 
 1. Użytkownik podchodzi do biletomatu (Rozpoczęcie interakcji).
