@@ -366,8 +366,30 @@ sequenceDiagram
     end
 ```
 
-# DIAGRAMY KLAS
-## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie dostępnością biletów"
+## DIAGRAMY KLAS
+
+### KLASY
+
+#### UŻYTKOWNIK
+- ATRYBUTY: `String odbiórBiletu`, `Boolean czyAktywny`
+- METODY: `void rozpocznijInterakcję()`, `void wybierzKategorię(String kategoria)`, `void wybierzBilet(String bilet)`, `void potwierdźWybór()`, `void dokonajPłatności(String metoda)`, `void anulujTransakcję()`
+
+#### BILETOMAT
+- ATRYBUTY: `List<Bilet> dostępneBilety`, `String aktualnyEkran`, `String status`
+- METODY: `void wyświetlListęBiletów()`, `void wyświetlPodsumowanie(Bilet bilet)`, `void weryfikujPłatność(String metoda)`, `void potwierdzTransakcję()`, `void resetInterfejs()`, `void wyświetlKomunikat(String tekst)`
+
+#### BILET
+- ATRYBUTY: `String id`, `String nazwa`, `String kategoria`, `Double cena`
+- METODY: `String getInfo()`, `Double getCena()`
+
+### RELACJE
+
+- `UŻYTKOWNIK` JEST POWIĄZANY Z `BILETOMAT` (ASOCJACJA) – użytkownik korzysta z biletomatu do zakupu biletu.
+
+- `BILETOMAT` ZAWIERA `BILET` (AGREGACJA) – biletomat przechowuje listę dostępnych biletów.
+
+
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie dostępnością biletów"
 ```mermaid
 classDiagram
 
@@ -417,7 +439,7 @@ BILETOMAT --> SERWER_APLIKACJI : potwierdza aktualizację
 
 ```
 
-## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie taryfami biletowymi"
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Zarządzanie taryfami biletowymi"
 ```mermaid
 classDiagram
 
@@ -528,47 +550,64 @@ classDiagram
 ```
 
 
-## DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Wyświetlenie dostępnych biletów"
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Szybki wybór rodzaju biletu"
+
 ```mermaid
 classDiagram
+    class Użytkownik {
+
+        -Id
+        +rozpocznijInterakcję()
+        +wybierzKategorię(String)
+        +wybierzBilet(String)
+        +potwierdźWybór()
+        +dokonajPłatności(String)
+        +anulujTransakcję()
+    }
+
     class Biletomat {
-        - String idBiletomatu
-        - String wersjaOprogramowania
-        + void uruchomEkranPowitalny()
-        + void pobierzListeBiletów()
-        + void wyświetlBilety()
-        + void obsłużBrakDanych()
-    }
-
-    class SystemCentralny {
-        - List~Bilet~ dostępneBilety
-        - boolean dostępnośćSieci
-        + List~Bilet~ zwróćListeBiletów()
-        + boolean sprawdźPołączenie()
-    }
-
-    class InterfejsUżytkownika {
-        - String aktualnyWidok
-        + void pokażEkranPowitalny()
-        + void wyświetlListeBiletów(List~Bilet~ bilety)
-        + void wyświetlKomunikatOstrzegawczy(String tekst)
+        -List~Bilet~ dostępneBilety
+        -String aktualnyEkran
+        -String status
+        +wyświetlListęBiletów()
+        +wyświetlPodsumowanie(Bilet)
+        +weryfikujPłatność(String)
+        +potwierdzTransakcję()
+        +resetInterfejs()
+        +wyświetlKomunikat(String)
     }
 
     class Bilet {
-        - String nazwa
-        - Decimal cena
-        - String typ
-        + String pobierzOpis()
+        -String id
+        -String nazwa
+        -String kategoria
+        -Double cena
+        +getInfo() String
+        +getCena() Double
     }
 
-    class Użytkownik {
-        - String idUżytkownika
-        + void przeglądajBilety()
-        + void wybierzBilet()
-    }
-
-    Biletomat --> SystemCentralny : pobiera dane
-    Biletomat --> InterfejsUżytkownika : steruje
-    SystemCentralny o-- Bilet : przechowuje
-    InterfejsUżytkownika --> Użytkownik : wyświetla
+    Użytkownik --> Biletomat : korzysta z
+    Biletomat o-- Bilet : zawiera
 ```
+### DIAGRAM KLAS Z DIAGRAMU SEKWENCJI "Wybór języka"
+```mermaid
+classDiagram
+    class Użytkownik {
+        -Id
+        +uruchomBiletomat()
+        +wybierzJęzyk(String)
+        +anulujTransakcję()
+    }
+    class Biletomat {
+        -String aktualnyJęzyk
+        -String aktualnyEkran
+        -List~String~ dostępneJęzyki
+        +wyświetlEkranPowitalny()
+        +wyświetlOpcjeJęzyka()
+        +dostosujInterfejs(String)
+        +wyświetlKomunikat(String)
+        +resetInterfejs()
+    }
+    Użytkownik --> Biletomat : korzysta z
+```
+
